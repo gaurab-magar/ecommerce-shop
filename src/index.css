@@ -1,13 +1,12 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import '../node_modules/@fortawesome/fontawesome-free/css/brands.css';
+@import '../node_modules/@fortawesome/fontawesome-free/css/solid.css';
+@import '../node_modules/@fortawesome/fontawesome-free/css/fontawesome.css';
+*{
+  font-family: 'Roboto', sans-serif;
+  font-size:  14px;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+main{
+  min-height: 90vh;
 }
