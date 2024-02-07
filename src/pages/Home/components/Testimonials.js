@@ -2,10 +2,10 @@ import React from 'react'
 
 export const Testimonials = () => {
   return (
-    <section className='container-fluid bg-light py-4'>
+    <section className='container-fluid py-4'>
         <h2 className="text-3xl text-center font-bold text-decoration-underline">Student About CodeBook</h2>
         <div className='row mx-3 py-4'>
-            <div className='col-md-6 border '>
+            <div className='col-md-6 border rounded-3 '>
                 <div className='container text-center p-4'>
                     <h4>Very easy this to integerate</h4>
                     <p>if you care for your time i hands down would go with this</p>
@@ -33,7 +33,7 @@ export const Testimonials = () => {
                     </div>
                 </div>
             </div>
-            <div className='col-md-6 border'>
+            <div className='col-md-6 border rounded-3'>
                 <div className='container text-center p-4'>
                     <h4>Very easy this to integerate</h4>
                     <p>if you care for your time i hands down would go with this</p>

@@ -1,8 +1,24 @@
 import {NavLink} from "react-router-dom";
+import { useEffect, useState } from "react";
+import "./Header.css";
+import { Search } from "../Sections/Search";
+
 export const Header = () => {
+    const [darkMode , setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode"))|| false);
+    useEffect(()=>{
+        localStorage.setItem("darkMode", JSON.stringify(darkMode)); 
+        if(darkMode){
+            document.body.classList.add("darkMode");
+        }else{
+            document.body.classList.remove("darkMode"); 
+        }
+    },[darkMode])
+
+    const [search , setSearch] = useState(false);
+
   return (
     <>
-        <header classNameName="container">
+        <header className="container-fluid">
             <nav className="navbar navbar-expand-lg navbar-dark fw-bold" style={{backgroundColor:"#001F3F"}}>
                 <div className="container-fluid">
                     <NavLink className="navbar-brand ms-5" to="/">Magar-shopping</NavLink>
@@ -12,8 +28,8 @@ export const Header = () => {
                     <div className="collapse navbar-collapse " id="navbarNav ">
                         <ul className="navbar-nav ms-auto me-5">
                             <li className="nav-item">
-                                <NavLink className="nav-link" aria-current="page" to="/search">
-                                    <i className="fas fa-search"></i>
+                                <NavLink className="nav-link" aria-current="page">
+                                    <i onClick={()=>setSearch(!search)} className="fas fa-search"></i>
                                 </NavLink>
                             </li>
                             <li className="nav-item">
@@ -22,8 +38,8 @@ export const Header = () => {
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" aria-current="page" to="/setting">
-                                    <i className="fas fa-cogs"></i>
+                                <NavLink className="nav-link" aria-current="page">
+                                    <i onClick={()=>setDarkMode(!darkMode)} className="fas fa-cogs"></i>
                                 </NavLink>
                             </li>
                             <li className="nav-item">
@@ -35,6 +51,7 @@ export const Header = () => {
                     </div>
                 </div>
             </nav>
+            {search &&  <Search setSearch={setSearch} />}
         </header>
     </>
   )

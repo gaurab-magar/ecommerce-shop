@@ -1,7 +1,7 @@
 import {Link} from  'react-router-dom';
 export const Hero = () => {
   return (
-    <section className="container-fluid px-3 py-5 bg-dark text-light">
+    <section className="container-fluid px-3 py-5">
         <div className="row d-flex justify-content-center">
             <div className="col-md-6 my-auto">
                 <div className="">

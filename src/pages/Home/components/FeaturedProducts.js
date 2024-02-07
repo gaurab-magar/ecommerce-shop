@@ -1,5 +1,5 @@
 import { useEffect , useState } from "react";
-import { ProductCard } from "../../../components/Elements/ProductCard";
+import { ProductCard } from "../../../components";
 
 export const FeaturedProducts = () => {
   const [featureditems , setFeaturedItems] = useState([]);
@@ -13,7 +13,7 @@ export const FeaturedProducts = () => {
     featureditem();
   },[])
   return (
-    <section className="container-fluid bg-light py-4">
+    <section className="container-fluid  py-4">
         <h2 className="text-3xl text-center font-bold text-decoration-underline">Featured Products</h2>
         <div className="row p-4 d-flex justify-content-center gap-5">
         {featureditems.map((data)=>(

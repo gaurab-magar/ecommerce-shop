@@ -30,7 +30,7 @@ export const Faq = () => {
 
   return (
     <seciton className="faq">
-        <div className="container-fluid bg-light py-5">
+        <div className="container-fluid py-5">
             <h2 className="text-3xl text-center font-bold text-decoration-underline">Freaquently Ask Question ?</h2>
             <div className="container border p-4 rounded-4 mt-5">
                 {Faqs.map((data)=>(

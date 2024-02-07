@@ -1,24 +1,28 @@
 import { FilterBar } from "./components/FilterBar";
-import {ProductCard} from "../../components/Elements/ProductCard";
+import {ProductCard} from "../../components"
 import { useEffect, useState } from "react";
+import { useTitle } from "../../Hooks/useTitle";
+import { useFilter } from "../../context";
 
 export const ProductList = () => {
   const [show,setShow] = useState(false);
-  const [products , setProducts] = useState([]);
+  useTitle("Explore E-Books");
+
+  const {products , initialProductList} = useFilter();
 
   useEffect(() => {
     async function fetchproducts ()  {
       const response = await fetch('http://localhost:8000/products');
       const data = await response.json();
-      setProducts(data);
+      initialProductList(data);
     };
     fetchproducts();
   },[])
 
   return (
-    <main className="bg-light">
+    <main className="">
       <section>
-        <nav class="navbar bg-white">
+        <nav class="navbar">
           <div class="container-fluid px-5 p-3 fw-bold">
             <p class="mb-0" href="#">All eBooks({products.length})</p>
             <div onClick={()=> setShow(!show)} className="ms-auto" style={{cursor:"pointer"}}>
@@ -36,7 +40,3 @@ export const ProductList = () => {
     </main>
   )
 }
-fetch()
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));

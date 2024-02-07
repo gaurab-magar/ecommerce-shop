@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import { Rating } from "./Rating";
+import './ProductCard.css';
 export const ProductCard = ({data}) => {
   const {id, name, image, price, overview, best_seller, rating} = data;
   return (
@@ -9,11 +10,11 @@ export const ProductCard = ({data}) => {
               { best_seller && <span type="button" class="btn text-light badge" style={{backgroundColor:"orangered"}}>
                     Best Sell
                 </span> }
-              <Link to={`products/${id}`} >
+              <Link to={`/products/${id}`} >
                 <img src={image} className="card-img-top img-fluid" alt={name} />
               </Link>  
               <div class="card-body">
-                <Link to={`products/${id}`} className="text-decoration-none" >
+                <Link to={`/products/${id}`} className="text-decoration-none" >
                   <h5 className="card-title text-black fw-bold text-truncate">{name}</h5>
                 </Link>
                 <p class="card-text">{overview}</p>
