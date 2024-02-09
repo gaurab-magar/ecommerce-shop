@@ -2,9 +2,11 @@ import {NavLink} from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./Header.css";
 import { Search } from "../Sections/Search";
+import { DropdownLogOut,DropdownLogin } from "../index";
 
 export const Header = () => {
     const [darkMode , setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode"))|| false);
+
     useEffect(()=>{
         localStorage.setItem("darkMode", JSON.stringify(darkMode)); 
         if(darkMode){
@@ -15,6 +17,7 @@ export const Header = () => {
     },[darkMode])
 
     const [search , setSearch] = useState(false);
+    const [dropdown,setDropdown] = useState(false);
 
   return (
     <>
@@ -34,7 +37,11 @@ export const Header = () => {
                             </li>
                             <li className="nav-item">
                                 <NavLink className="nav-link" aria-current="page" to="/cart">
-                                    <i className="fas fa-shopping-cart"></i>
+                                    <i className="fas fa-shopping-cart position-relative">
+                                        <span className="position-absolute start-100 translate-middle badge rounded-pill bg-danger" style={{top:"-7px" , fontSize:".7rem"}}>
+                                            0
+                                        </span>
+                                    </i>
                                 </NavLink>
                             </li>
                             <li className="nav-item">
@@ -43,11 +50,12 @@ export const Header = () => {
                                 </NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" aria-current="page" to="/profile">
-                                    <i className="fas fa-user"></i>
+                                <NavLink className="nav-link" aria-current="page">
+                                    <i onClick={()=>setDropdown(!dropdown)} className="fas fa-user position-relative "></i>
                                 </NavLink>
                             </li>
                         </ul>
+                            {dropdown && <DropdownLogOut />}
                     </div>
                 </div>
             </nav>

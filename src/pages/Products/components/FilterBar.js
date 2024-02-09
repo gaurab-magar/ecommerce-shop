@@ -66,7 +66,7 @@ export const FilterBar = ({setShow}) => {
                 </div>
 
                 <div className="text-center py-4">
-                    <button onClick={()=> dispatch({type: "CLEAR_FILTER"})} className="btn btn-danger rounded-4">Clear Filters</button>
+                    <button onClick={()=> {dispatch({type: "CLEAR_FILTER"}); setShow(false) }} className="btn btn-danger rounded-4">Clear Filters</button>
                 </div>
             </div>
         </div>

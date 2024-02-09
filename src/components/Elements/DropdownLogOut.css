@@ -1,0 +1,6 @@
+.bg-grey:hover{
+    background-color: rgb(197, 194, 194);
+    transition: 0.3s;
+    color: aliceblue;
+    border-radius: .3rem;
+}
