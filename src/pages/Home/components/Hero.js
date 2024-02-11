@@ -1,4 +1,6 @@
 import {Link} from  'react-router-dom';
+import React from "react";
+
 export const Hero = () => {
   return (
     <section className="container-fluid px-3 py-5">

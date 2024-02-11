@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import "./Header.css";
 import { Search } from "../Sections/Search";
 import { DropdownLogOut,DropdownLogin } from "../index";
+import React from "react";
+
 
 export const Header = () => {
     const [darkMode , setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode"))|| false);
+    const token = JSON.parse(sessionStorage.getItem('token'));
 
     useEffect(()=>{
         localStorage.setItem("darkMode", JSON.stringify(darkMode)); 
@@ -55,7 +58,7 @@ export const Header = () => {
                                 </NavLink>
                             </li>
                         </ul>
-                            {dropdown && <DropdownLogOut />}
+                            {dropdown && (token ? <DropdownLogin setDropdown={setDropdown} /> : <DropdownLogOut setDropdown={setDropdown} />)}
                     </div>
                 </div>
             </nav>

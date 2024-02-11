@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import React from "react";
 
 export const Search = ({setSearch}) => {
     const navigate = useNavigate();

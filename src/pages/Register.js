@@ -3,29 +3,42 @@ import axios from "axios";
 import {checkEmailExists} from "../components/Other/IsValidate";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
 
 export const Register = () => {
   const navigate = useNavigate();
 
-      async function handleRegister(event) {
-        try {
-          event.preventDefault();
-          const authDetail = { 
-            name: event.target.name.value,
-            email: event.target.email.value,
-            password: event.target.password.value
-          };
-
-        const emailExist = await checkEmailExists(authDetail.email)
-          if(emailExist){
-            return toast.error("Error Already Exist");
-          }  
-        const response = await axios.post('http://localhost:8000/users', authDetail);
-        return response.data ? navigate("/products") : emailExist;
-        } catch (error) {
-          return  { error: 'Registration failed' };
-        }
+  async function handleRegister(event) {
+    try {
+      event.preventDefault();
+      const authDetail = { 
+        name: event.target.name.value,
+        email: event.target.email.value,
+        password: event.target.password.value
+      };
+  
+      const emailExist = await checkEmailExists(authDetail.email);
+      if(emailExist){
+        toast.error("Error: Email already exists");
+        return; // Exit function if email already exists
+      }  
+  
+      const response = await axios.post('http://localhost:8000/users', authDetail);
+      const data = response.data;
+  
+      if(data.accessToken){
+        sessionStorage.setItem("token", JSON.stringify(data.accessToken));
+        sessionStorage.setItem("cbid", JSON.stringify(data.users.id));
+        navigate("/products");
+      } else {
+        // Handle case where accessToken is not received
+        toast.error("Error: Registration failed");
       }
+    } catch (error) {
+      console.error('Error: Registration failed', error);
+      toast.error("Error: Registration failed");
+    }
+  }
 
   return (
     <main>

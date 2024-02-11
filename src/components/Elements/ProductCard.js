@@ -1,5 +1,7 @@
 import {Link} from "react-router-dom";
 import { Rating } from "./Rating";
+import React from "react";
+
 import './ProductCard.css';
 export const ProductCard = ({data}) => {
   const {id, name, image, price, overview, best_seller, rating} = data;

@@ -1,5 +1,7 @@
 import { useEffect , useState } from "react";
 import { ProductCard } from "../../../components";
+import React from "react";
+
 
 export const FeaturedProducts = () => {
   const [featureditems , setFeaturedItems] = useState([]);

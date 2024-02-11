@@ -3,6 +3,8 @@ import {FeaturedProducts} from './components/FeaturedProducts';
 import { Testimonials } from "./components/Testimonials";
 import { Faq } from "./components/Faq";
 import { useTitle } from "../../Hooks/useTitle";
+import React from "react";
+
 
 export const HomePage = () => {
   useTitle('Access Latest Computer Science eBooks');

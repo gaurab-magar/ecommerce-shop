@@ -1,4 +1,6 @@
 import { Accodian } from "./Accodian";
+import React from "react";
+
 export const Faq = () => {
     const Faqs = [
         {

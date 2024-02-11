@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Rating } from "../components";
 import { useTitle } from "../Hooks/useTitle";
+import React from "react";
 
 export const ProductDetail = () => {
     const [product , setProduct] = useState([]);
