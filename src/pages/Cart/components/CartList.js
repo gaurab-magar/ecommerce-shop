@@ -1,26 +1,27 @@
-import React from 'react'
-
+import React from 'react';
+import {CartCard} from "./CartCard";
+import { Checkout } from './Checkout';
+import { useState } from 'react';
+import { useCart } from '../../../context';
 export const CartList = () => {
+    const [checkout , setCheckout] = useState(false);
+    const {cartList,total} = useCart();
   return (
-    <main>
+    <section>
         <div className="container">
             <h1 className='text-center'>Your Shopping Cart</h1>
+            <p className='text-center'>MyCart({cartList.length})</p>
             <div className="row">
-               <div className='card'>
-                    <div className='card-body d-flex justify-content-between align-items-center'>
-                        <img className='img-fluid' src='https://source.unsplash.com/random/800x600'></img>
-                        <p>Product Name: Product Title Here...</p>
-                        <p>Price: $9.99</p>
-                        <button type='button' class='btn btn-primary'>Add to cart</button>
-                        <button type='button' class='btn btn-primary'>Remove from Cart</button>
-                    </div>
-               </div>
+
+                {cartList.map((item)=> (<CartCard item={item} key={item.id} />))}
+
                <div className='d-flex justify-content-between'>
-                    <p>Total Amount: $24.97</p>
-                    <a href="#" class="btn btn-success">Checkout Now!</a>
+                    <p>Total Amount: ${total}</p>
+                    <button onClick={()=>setCheckout(!checkout)} href="#" class="btn btn-success">Checkout Now!</button>
                </div>
             </div>
         </div>
-    </main>
+        {checkout && <Checkout setcheckout={setCheckout} />}
+    </section>
   )
 }

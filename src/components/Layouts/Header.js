@@ -1,15 +1,17 @@
 import {NavLink} from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./Header.css";
 import { Search } from "../Sections/Search";
 import { DropdownLogOut,DropdownLogin } from "../index";
 import React from "react";
+import { useCart } from "../../context";
 
 
 export const Header = () => {
     const [darkMode , setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode"))|| false);
     const token = JSON.parse(sessionStorage.getItem('token'));
-
+    const {cartList} = useCart();
+    
     useEffect(()=>{
         localStorage.setItem("darkMode", JSON.stringify(darkMode)); 
         if(darkMode){
@@ -42,7 +44,7 @@ export const Header = () => {
                                 <NavLink className="nav-link" aria-current="page" to="/cart">
                                     <i className="fas fa-shopping-cart position-relative">
                                         <span className="position-absolute start-100 translate-middle badge rounded-pill bg-danger" style={{top:"-7px" , fontSize:".7rem"}}>
-                                            0
+                                            {cartList.length}
                                         </span>
                                     </i>
                                 </NavLink>

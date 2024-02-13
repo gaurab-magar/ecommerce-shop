@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom";
 import { Rating } from "../components";
 import { useTitle } from "../Hooks/useTitle";
 import React from "react";
+import { useCart } from "../context";
 
 export const ProductDetail = () => {
+    const {cartList ,addToCart, removeFromCart} = useCart();
     const [product , setProduct] = useState([]);
     const { id } = useParams();
     useTitle(`${product.name}`)
@@ -16,6 +18,14 @@ export const ProductDetail = () => {
         }
         productDetail()
     },[])
+    const [inCart , setInCart] = useState(false);
+    useEffect(()=>{
+        if(inCart){
+            setInCart(true)
+        }else{
+            setInCart(false)
+        }
+    },[cartList,product.id])
   return (
     <main>
         <section className="py-5">
@@ -42,7 +52,8 @@ export const ProductDetail = () => {
                                 { !product.in_stock && <span className="text-danger py-2 px-3 rounded-3 shadow bg-white me-3">OutOfStock</span> }
                                 {product.size && <span className="text-primary py-2 px-3 rounded-3 shadow bg-white me-3">{product.size}MB</span>}
                             </p>
-                            <button className="btn btn-primary rounded-3 my-2">Add To Cart +</button>
+                            { inCart && <button onClick={()=>removeFromCart(product)} className="btn btn-danger rounded-3 my-2" disabled={product.in_stock?"":"disabled"}>Remove</button> }
+                            { !inCart && <button onClick={()=>addToCart(product)} className="btn btn-primary rounded-3 my-2" disabled={product.in_stock ? "" : "disabled" }>Add To Cart +</button> }
                         </div>
                         <div className="description">
                             <p>{product.long_description}</p>

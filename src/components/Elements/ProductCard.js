@@ -1,10 +1,23 @@
 import {Link} from "react-router-dom";
 import { Rating } from "./Rating";
-import React from "react";
+import { useCart } from "../../context";
+import React, { useEffect, useState } from "react";
 
 import './ProductCard.css';
 export const ProductCard = ({data}) => {
   const {id, name, image, price, overview, best_seller, rating} = data;
+  const {cartList,addToCart,removeFromCart} = useCart();
+  const [inCart , setInCart] = useState(false);
+
+  useEffect(()=>{
+   const productInCart =  cartList.find(item => item.id === data.id)
+   if(productInCart){
+    setInCart(true);
+   }else{
+    setInCart(false);
+   }
+  },[cartList, data.id])
+ 
   return (
     <>
         <div className="col-md-3">
@@ -25,7 +38,8 @@ export const ProductCard = ({data}) => {
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
                   <span class="fw-bold">${price}</span>
-                  <button className="btn btn-primary">Add To Cart +</button>
+                  { inCart && <button onClick={()=>removeFromCart(data)} className="btn btn-primary">Add To Cart +</button>}
+                  { !inCart && <button onClick={()=>addToCart(data)} className="btn btn-danger">Remove</button>}
                 </div>
               </div>
             </div>
