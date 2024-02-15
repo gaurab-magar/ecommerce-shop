@@ -3,20 +3,27 @@ import {ProductCard} from "../../components"
 import { useEffect, useState } from "react";
 import { useTitle } from "../../Hooks/useTitle";
 import { useFilter } from "../../context";
+import {getProductList} from "../../Services"
 import React from "react";
 
 
 export const ProductList = () => {
   const [show,setShow] = useState(false);
+  const [errorMessage , setErrorMessgae] = useState('');
   useTitle("Explore E-Books");
 
   const {products , initialProductList} = useFilter();
 
   useEffect(() => {
     async function fetchproducts ()  {
-      const response = await fetch('http://localhost:8000/products');
-      const data = await response.json();
-      initialProductList(data);
+      try{
+        const data = await getProductList(searchTerm);
+        initialProductList(data);
+        setErrorMessgae('');
+      }catch(error){
+        toast.error(error.message)
+        setErrorMessgae(error.message);
+      }
     };
     fetchproducts();
   },[])
@@ -33,6 +40,7 @@ export const ProductList = () => {
           </div>
         </nav>
         <div className="container py-4 d-flex flex-wrap justify-content-center gap-5">
+          {errorMessage}
           {products.map((data) =>(
             <ProductCard key={data.id} data={data} />
           ) )}

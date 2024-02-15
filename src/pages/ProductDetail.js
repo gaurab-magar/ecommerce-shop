@@ -4,17 +4,23 @@ import { Rating } from "../components";
 import { useTitle } from "../Hooks/useTitle";
 import React from "react";
 import { useCart } from "../context";
+import {getProduct} from "../Services";
+import { useTitle } from "../Hooks/useTitle";
 
 export const ProductDetail = () => {
     const {cartList ,addToCart, removeFromCart} = useCart();
+    
     const [product , setProduct] = useState([]);
     const { id } = useParams();
-    useTitle(`${product.name}`)
+    useTitle(`${product.name}`);
     useEffect(()=>{
         async function productDetail ()  {
-            const response = await fetch(`http://localhost:8000/products/${id}`);
-            const data = await response.json();
-            setProduct(data)
+            try{
+                const data = await getProduct(id)
+                setProduct(data);
+            }catch(error){
+                toast.error(error.message)
+            }
         }
         productDetail()
     },[])

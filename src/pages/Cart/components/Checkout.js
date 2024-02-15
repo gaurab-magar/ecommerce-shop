@@ -1,46 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useCart } from '../../../context';
 import {useNavigate} from "react-router-dom";
+import { getUser } from '../../../Services';
 
 export const Checkout = ({setcheckout}) => {
     const {total,cartList,clearCart} = useCart();
     const [user,setUser] = useState({});
     const navigate = useNavigate();
 
-    const token = JSON.parse(sessionStorage.getItem("token"));
-    const cbid = JSON.parse(sessionStorage.getItem("cbid"));
-
     useEffect(()=>{
-        async function getUser(){
-            const response = await fetch(`http://localhost:8000/600/users/${cbid}`,{
-                method: "GET",
-                headers: {"Content-Type":"application/json", Authorization: `Bearer ${token}`}
-            });
-            const data = await response.json();
-            setUser(data);
+        async function fetchData(){
+            try{
+                const data = await getUser();
+                setUser(data);
+            }catch(error){
+                toast.error(error.message);
+            }
         }
-        getUser();
+        fetchData();
     },[]);
     
     async function handleOrderSubmit(event){
         event.preventDefault(); 
         try{
-            const order = {
-                cartList:cartList,
-                total:total,
-                quantity:cartList.length,
-                user:{
-                    name: event.target.name.value,
-                    email:event.target.email.value,
-                    id:cbid
-                }
-            }
-            const response = await fetch("http://localhost:8000/660/orders",{
-                method: "POST",
-                headers: {"Content-Type": "application/json", Authorization:`Bearer${token}`},
-                body: JSON.stringify(order)
-            })
-            const data = await response.json();
+           const data = await createOrder(cartList,total,user);
             clearCart();
             navigate("/order-summary",{state:{data:data,status:true}});
         }catch{

@@ -1,5 +1,6 @@
 import { useEffect , useState } from "react";
 import { ProductCard } from "../../../components";
+import {getFeaturedList} from "../../../Services";
 import React from "react";
 
 
@@ -7,10 +8,12 @@ export const FeaturedProducts = () => {
   const [featureditems , setFeaturedItems] = useState([]);
   useEffect(()=>{
     async function featureditem(){
-      const response = await fetch("http://localhost:8000/featured_products");
-      const data = await response.json();
-      console.log(data)
-      setFeaturedItems(data);
+      try{
+        const data = await getFeaturedList();
+        setFeaturedItems(data);
+      }catch(error){
+        toast.error(error.message);
+      }
     }
     featureditem();
   },[])

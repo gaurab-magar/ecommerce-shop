@@ -2,50 +2,66 @@ import { useRef } from "react";
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {toast} from  'react-toastify';
+import{login} from '../Services';
 import React from "react";
+import { useTitle } from "../Hooks/useTitle";
 
 export const Login = () => {
-
+  useTitle("login-page")
   const navigate = useNavigate();
   const email = useRef();
   const password = useRef();
 
   async function handleLogin(event){
     event.preventDefault();
-
-    const authDetail = {
-      email: email.current.value,
-      password: password.current.value
-    }
-    if(!authDetail.email || !authDetail.password) return toast("All fields are required",{type:"error"});
-    
     try{
-      const response = await fetch('http://localhost:8000/users',
-      {
-        method:'POST' ,
-        headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify(authDetail)
-      });
-      const data = await response.json() ;
-      console.log(data);
-      
-      if (data) {
-        toast("login Succesfull");
-        navigate('/');
-      }else{
-        throw new Error ('Invalid Email or Password')
+      const authDetail = {
+        email: email.current.value,
+        password: password.current.value
       }
-    }catch(err) {
-      console.log(err);
-      toast(err.message ? err.message : 'Server error',{type:"error"});
-    }
-    if(data.accesToken){
-      sessionStorage.setItem("token", JSON.stringify(data.accesToken));
-      sessionStorage.setItem("cbid", JSON.stringify(data.users.id));
+      const data = await login(authDetail);
+      data.accessToken? navigate('/products'):toast.error(data);
+    }catch(error){
+      toast.error(error.messgae)
     }
   }
+
+  // async function handleLogin(event){
+  //   event.preventDefault();
+
+  //   const authDetail = {
+  //     email: email.current.value,
+  //     password: password.current.value
+  //   }
+  //   if(!authDetail.email || !authDetail.password) return toast("All fields are required",{type:"error"});
+    
+  //   try{
+  //     const response = await fetch('http://localhost:8000/users',
+  //     {
+  //       method:'POST' ,
+  //       headers:{
+  //         'Content-Type':'application/json'
+  //       },
+  //       body:JSON.stringify(authDetail)
+  //     });
+  //     const data = await response.json() ;
+  //     console.log(data);
+      
+  //     if (data) {
+  //       toast("login Succesfull");
+  //       navigate('/');
+  //     }else{
+  //       throw new Error ('Invalid Email or Password')
+  //     }
+  //   }catch(err) {
+  //     console.log(err);
+  //     toast(err.message ? err.message : 'Server error',{type:"error"});
+  //   }
+  //   if(data.accesToken){
+  //     sessionStorage.setItem("token", JSON.stringify(data.accesToken));
+  //     sessionStorage.setItem("cbid", JSON.stringify(data.users.id));
+  //   }
+  // }
     // const requestOptions = {
     //   method: "POST",
     //   headers: {"Content-Type": "application/json"},

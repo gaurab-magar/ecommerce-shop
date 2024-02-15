@@ -4,41 +4,48 @@ import {checkEmailExists} from "../components/Other/IsValidate";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
+import { register } from "../Services";
 
 export const Register = () => {
   const navigate = useNavigate();
+  useTitle('register-page')
 
   async function handleRegister(event) {
-    try {
-      event.preventDefault();
+    event.preventDefault();
+    try{
       const authDetail = { 
         name: event.target.name.value,
         email: event.target.email.value,
         password: event.target.password.value
       };
-  
-      const emailExist = await checkEmailExists(authDetail.email);
-      if(emailExist){
-        toast.error("Error: Email already exists");
-        return; // Exit function if email already exists
-      }  
-  
-      const response = await axios.post('http://localhost:8000/users', authDetail);
-      const data = response.data;
-  
-      if(data.accessToken){
-        sessionStorage.setItem("token", JSON.stringify(data.accessToken));
-        sessionStorage.setItem("cbid", JSON.stringify(data.users.id));
-        navigate("/products");
-      } else {
-        // Handle case where accessToken is not received
-        toast.error("Error: Registration failed");
-      }
-    } catch (error) {
-      console.error('Error: Registration failed', error);
-      toast.error("Error: Registration failed");
+      const data = await register(authDetail);
+      data.accessToken? navigate("/products") : toast.error(data);
+    }catch(error){
+      toast.error(error.message);
     }
   }
+  
+    //   const emailExist = await checkEmailExists(authDetail.email);
+    //   if(emailExist){
+    //     toast.error("Error: Email already exists");
+    //     return; // Exit function if email already exists
+    //   }  
+  
+    //   const response = await axios.post('http://localhost:8000/users', authDetail);
+    //   const data = response.data;
+  
+    //   if(data.accessToken){
+    //     sessionStorage.setItem("token", JSON.stringify(data.accessToken));
+    //     sessionStorage.setItem("cbid", JSON.stringify(data.users.id));
+    //     navigate("/products");
+    //   } else {
+    //     // Handle case where accessToken is not received
+    //     toast.error("Error: Registration failed");
+    //   }
+    // } catch (error) {
+    //   console.error('Error: Registration failed', error);
+    //   toast.error("Error: Registration failed");
+    // }
 
   return (
     <main>
