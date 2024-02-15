@@ -73,6 +73,16 @@ export const Login = () => {
     // console.log(data)
     // return data ? (navigate("/products"), alert("Login Successful")) :toast.error('Invalid Credentials')
   // }
+  async function handleLoginGuest(){
+    email.current.value = REACT_APP_GUEST_EMAIL,
+    password.current.value = REACT_APP_GUEST_PASSWORD ;
+    try{
+      const data = await login({email:email.current.value,password:password.current.value});
+      data.accessToken ? navigate('/products'):toast.error(error.messgae);
+    }catch(error){
+      toast.error(error.messgae)
+    }
+  }
   return (
     <main>
       <div className="container d-flex flex-column justify-content-center align-items-center">
@@ -96,6 +106,7 @@ export const Login = () => {
                 <Link to="/register" type="submit" className="btn btn-secondary fw-bold rounded-3 py-2">Register</Link>
               </div>
             </form>
+            <button onClick={handleLoginGuest} className="btn btn-primary fw-bold rounded-3 py-2">Login as Guest</button>
           </div>
         </div>
       </div>
